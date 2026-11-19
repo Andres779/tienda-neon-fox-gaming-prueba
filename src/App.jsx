@@ -40,28 +40,28 @@ import { getProducto } from './services/adminData';
 function App() {
   const [itemsCarrito, setItemsCarrito] = useState([]);
 
-  const agregarAlCarrito = (producto) => {
+  const agregarAlCarrito = (producto, cantidad = 1) => {
     // No permite agregar más unidades de las que hay en stock
     const stock = getProducto(producto.id)?.stock ?? producto.stock ?? Infinity;
     const enCarrito = itemsCarrito.find((item) => item.id === producto.id)?.quantity ?? 0;
-    if (enCarrito >= stock) {
+    if (enCarrito + cantidad > stock) {
       window.alert('No hay más stock disponible de este producto.');
       return;
     }
-
+  
     setItemsCarrito((prev) => {
       const existe = prev.find((item) => item.id === producto.id);
       if (existe) {
         return prev.map((item) =>
           item.id === producto.id
-            ? { ...item, quantity: item.quantity + 1 }
+            ? { ...item, quantity: item.quantity + cantidad }
             : item
         );
       }
-      return [...prev, { ...producto, quantity: 1 }];
+      return [...prev, { ...producto, quantity: cantidad }];
     });
   };
-
+  
   const actualizarCantidad = (id, delta) => {
     if (delta > 0) {
       const stock = getProducto(id)?.stock ?? Infinity;
