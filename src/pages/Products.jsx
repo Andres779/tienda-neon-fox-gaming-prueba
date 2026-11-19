@@ -2,6 +2,7 @@ import { getProductos } from '../services/adminData';
 import ProductCard from '../components/organisms/ProductCard';
 import PlantillaBase from '../components/template/PlantillaBase';
 import '../styles/pages/home.css';
+import '../styles/pages/products.css';
 
 function Products({ alAgregarAlCarrito, totalItemsCount = 0 }) {
   const products = getProductos();
@@ -13,7 +14,7 @@ function Products({ alAgregarAlCarrito, totalItemsCount = 0 }) {
           <h2>PRODUCTOS</h2>
         </div>
 
-        <div className="contenedor-caja">
+        <div className="productos-grid">
           {products.map((product) => (
             <ProductCard
               key={product.id}
