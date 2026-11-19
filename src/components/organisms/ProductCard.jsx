@@ -1,78 +1,56 @@
-import React from 'react';
+import { Link } from 'react-router-dom';
+import '../../styles/pages/products.css';
 
-import Image from '../atoms/Image';
+function ProductCard({ product, hoverImage, alAgregarAlCarrito }) {
+  const sinStock = product.stock <= 0;
+  const tieneHover = Boolean(hoverImage);
 
-import Text from '../atoms/Text';
+  return (
+    <article className="producto-card">
+      <Link
+        to={`/products/${product.id}`}
+        className="producto-card__imagen"
+        aria-label={`Ver detalle de ${product.name}`}
+      >
+        <img
+          src={product.image}
+          alt={product.name}
+          className={`principal ${tieneHover ? 'tiene-hover' : ''}`}
+          loading="lazy"
+        />
+        {tieneHover && (
+          <img src={hoverImage} alt="" className="hover" loading="lazy" />
+        )}
+      </Link>
 
-import Button from '../atoms/Button';
+      <div className="producto-card__info">
+        <p className="producto-card__marca">{product.brand}</p>
+        <h3 className="producto-card__nombre">{product.name}</h3>
+        <p className="producto-card__precio">
+          ${product.price.toLocaleString('es-CL')}
+        </p>
 
-import { useNavigate } from 'react-router-dom';
-
-
-function ProductCard({ product, alAgregarAlCarrito, hoverImage }) {
-
- const navigate = useNavigate();
-
- const [isImageHovered, setIsImageHovered] = React.useState(false);
-
-
- return (
-
-  <div className="caja-item">
-
-   <div
-
-    className="periferico-img-container"
-
-    onMouseEnter={() => setIsImageHovered(true)}
-
-    onMouseLeave={() => setIsImageHovered(false)}
-
-    onClick={() => navigate(`/products/${product.id}`)}
-
-   >
-
-    <Image
-
-     src={isImageHovered && hoverImage ? hoverImage : product.image}
-
-     alt={product.name}
-
-     className="img-link"
-
-    />
-
-   </div>
-
-
-   <Text className="marca">{product.brand || 'Marca'}</Text>
-
-   <Text className="desc-corta">{product.name}</Text>
-
-   <Text className="desc-corta fw-bold">
-
-    PRECIO: ${product.price?.toLocaleString('es-CL')}
-
-   </Text>
-
-
-   <Button
-
-    className="btn-agregar"
-
-    onClick={() => alAgregarAlCarrito(product)}
-
-   >
-
-    Agregar al carrito
-
-   </Button>
-
-  </div>
-
- );
-
+        <div className="producto-card__acciones">
+          <Link
+            to={`/products/${product.id}`}
+            className="btn-producto btn-producto--secundario"
+          >
+            Ver detalle
+          </Link>
+          {alAgregarAlCarrito && (
+            <button
+              type="button"
+              className="btn-producto btn-producto--primario"
+              disabled={sinStock}
+              onClick={() => alAgregarAlCarrito(product, 1)}
+            >
+              {sinStock ? 'Sin stock' : 'Agregar'}
+            </button>
+          )}
+        </div>
+      </div>
+    </article>
+  );
 }
-
 
 export default ProductCard;
