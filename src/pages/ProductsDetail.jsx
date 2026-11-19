@@ -8,8 +8,6 @@ import PlantillaBase from '../components/template/PlantillaBase';
 import '../styles/pages/home.css';
 import '../styles/pages/products.css';
 
-const MAX_POR_COMPRA = 5; // igual que el select 1-5 de la versión HTML
-
 function ProductDetail({ alAgregarAlCarrito, totalItemsCount = 0 }) {
   const { id } = useParams();
   const product = getProductos().find((p) => p.id === parseInt(id, 10));
@@ -34,7 +32,7 @@ function ProductDetail({ alAgregarAlCarrito, totalItemsCount = 0 }) {
   }
 
   const sinStock = product.stock <= 0;
-  const maxCantidad = Math.max(1, Math.min(MAX_POR_COMPRA, product.stock));
+  const maxCantidad = Math.max(1, product.stock);
 
   // Galería: usa product.images si existe, si no, la imagen única
   const galeria =
