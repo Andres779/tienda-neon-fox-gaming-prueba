@@ -157,6 +157,19 @@
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+/* Validación */
+.contactos-page-wrapper .form-group input.input-error,
+.contactos-page-wrapper .form-group textarea.input-error {
+    border-color: #ff4d4d;
+    box-shadow: 0 0 8px rgba(255, 77, 77, 0.5);
+}
+
+.contactos-page-wrapper .error-text {
+    color: #ff8080;
+    font-size: 0.85rem;
+    font-family: "Changa One", sans-serif;
+}
+
 @media (hover: hover) {
     .contactos-page-wrapper .submit-btn:hover {
         background-color: #a040f0 !important;
